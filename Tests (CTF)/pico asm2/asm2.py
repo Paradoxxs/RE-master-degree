@@ -1,0 +1,13 @@
+# 0x4,0x2d
+
+var1 = 0x2d
+var2 = 0x4
+check = 0x5fa1
+
+while var2 < check:
+    var2 +=0xd1
+    var1 +=0x1
+
+
+print(hex(var1))
+    
