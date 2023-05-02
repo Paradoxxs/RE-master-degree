@@ -18,11 +18,15 @@ aarch64-linux-gnu-gcc -static -o [the name of the executable] a.o
 
 **Compiling intel assembly**
 
+Compile a assembly and c codes which execute the assembly with a give augments
 ````bash
 gcc -masm=intel -m32 -c test_modified.S -o test_modified.o
 gcc -m32 -c solve.c -o solve.o
 gcc -m32 test_modified.o solve.o -o solve
 ````
+
+
+Just compile the asm 
 
 
 ´´´´bash
