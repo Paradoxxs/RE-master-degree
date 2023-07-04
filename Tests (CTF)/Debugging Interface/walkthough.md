@@ -12,7 +12,7 @@ So we have to edit the bit rate.
 Looking at the shortest interval we see that 
 
 
-$\test{Bit rate (bit/s)}=\frac{1 second}{(32.02 x 10^{-6})} \test{seconds} = 31230.480949406621 = 31230$
+$\text{Bit rate (bit/s)}=\frac{1 second}{(32.02 x 10^{-6})} \text{seconds} = 31230.480949406621 = 31230$
 
 - The $10^{-6}$ is to convert milliseconds to seconds
 
