@@ -44,7 +44,7 @@ ld -o chall chall.o
 ```
 as --32 -o asm_code.o asm_code.asm
 ld -o asm_code asm_code.o
-````
+```
 
 # Adding burp cert to android
 
@@ -64,6 +64,7 @@ Requirements:
 - Burp suite
 
 1. Start up burp suite and open the burp browser and go to http://burp ,click the *CA Certificate* to download burp cert. Rename it from *Cacert.der* to *Cacert.crt* 
+ - Create a proxy listerner on *all interfaces* using port *8082*.
 
 2. Start you virtual phone within Android studio, once started drag the crt file from your computer onto the virtual phone and it will upload the file to the device automatically. 
 
@@ -109,18 +110,49 @@ cp frida_libs/armeabi/frida-gadget-9.1.26-android-arm.so out_dir/lib/armeabi/lib
 6. Add reference to frida-gadget to SMALI code, in a known exported activity or otherwise accessible Activity *usually MainActivity.smali, or OnboardingActivity.smali* const-string v0, "frida-gadget" invoke-static {v0}, Ljava/lang/System;->loadLibrary(Ljava/lang/String;)
 
 ```
-const-string v0,"frida_gedget" invoke-static {v0},
-Ljava/lang/System;->loadLibrary(Ljava/lang/String;)V
+const-string v0, "frida-gadget" 
+invoke-static {v0}, Ljava/lang/System;->loadLibrary(Ljava/lang/String;)V
 ```
 
 
 
-7. Recompile Application: apktool b <target.apk> -o <output_file.apk> (in this case target.apk points to the folder you decompiled in step #1)
-    - Sign with your key, and zipalign the app
 
-    ```
-    keytool -genkey -v -keystore custom.keystore -alias mykeyaliasname -keyalg RSA -keysize 2048 -validity 10000
-    jarsigner -sigalg SHA1withRSA -digestalg SHA1 -keystore mycustom.keystore -storepass mystorepass repackaged.apk mykeyaliasname
-    jarsigner -verify repackaged.apk
-    zipalign 4 repackaged.apk repackaged-final.apk
-    ```
+7. Recompile Application 
+
+```
+apktool b -o <target.apk> <output_file.apk> 
+```
+
+8. Sign with your key, and zipalign the app
+
+```
+keytool -genkey -v -keystore custom.keystore -alias mykeyaliasname -keyalg RSA -keysize 2048 -validity 10000
+```
+```
+jarsigner -sigalg SHA1withRSA -digestalg SHA1 -keystore mycustom.keystore -storepass mystorepass repackaged.apk mykeyaliasname
+```
+```
+jarsigner -verify repackaged.apk
+```
+```
+zipalign 4 repackaged.apk repackaged-final.apk
+```
+
+An easier way to patch the APK is using objection, 
+
+```
+objection patchapk <target apk>
+```
+
+
+Once the application have been patch you can iteract with application using:
+
+```
+objection explore
+```
+
+To disable sslpinning run the following command within objection
+
+```
+android sslpinning disable
+```
