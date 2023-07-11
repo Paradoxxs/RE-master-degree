@@ -141,7 +141,7 @@ zipalign 4 repackaged.apk repackaged-final.apk
 An easier way to patch the APK is using objection, 
 
 ```
-objection patchapk <target apk>
+objection patchapk -s <target apk>
 ```
 
 
